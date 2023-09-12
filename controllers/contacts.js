@@ -1,16 +1,19 @@
-const ContactModel = require("../models/contacts"); // Importa las funciones directamente
+/* const ContactModel = require("../models/contacts"); */ // Importa las funciones directamente
+const service = require("../service"); // Importa las funciones directamente
+/* const Service = require("../service"); */
 
-const listContacts = async (req, res) => {
+const listContacts = async (req, res, next) => {
   try {
-    const contacts = await ContactModel.listContacts(); // Usa la función directamente
-    res.status(200).json({ status: "success", code: 200, contacts });
+    const results = await service.getAllContacts(); // Usa la función directamente
+    res.json({ status: "success", code: 200, data: { contacts: results } });
   } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.error(error);
+    next(error);
+    /*  res.status(500).json({ error: "Internal Server Error" }); */
   }
 };
 
-const getContactById = async (req, res) => {
+/* const getContactById = async (req, res) => {
   const { contactId } = req.params;
   try {
     const contact = await ContactModel.getContactById(contactId);
@@ -87,13 +90,11 @@ const updateContact = async (req, res) => {
     console.error("Error:", error);
     res.status(404).json({ error: "Contact not found" });
   }
-};
+}; */
 module.exports = {
   listContacts,
-  getContactById,
+  /*  getContactById,
   removeContact,
   addContact,
-  updateContact,
+  updateContact, */
 };
-
-
