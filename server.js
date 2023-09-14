@@ -1,9 +1,14 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser"); // Importa body-parser
 require("dotenv").config();
 const app = express();
 const connection = require("./db/connection");
 app.use(cors());
+
+// Configura body-parser
+app.use(bodyParser.json()); // Para JSON
+app.use(bodyParser.urlencoded({ extended: true })); // Para datos codificados en URL
 
 const routerApi = require("./api");
 app.use("/api", routerApi);
